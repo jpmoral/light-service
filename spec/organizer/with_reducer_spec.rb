@@ -43,26 +43,15 @@ describe LightService::Organizer::WithReducer do
   end
 
   context "when aliases are given" do
-    it "puts the aliased value in the context with the aliasing key" do
-      data = {
-        foo: "foo"
-      }
+    it "passes the aliases through to the context" do
+      data = { foo: "foo" }
       aliases = {
         foo: :alias_of_foo
       }
-      aliased_pair = {
-        alias_of_foo: "foo"
-      }
 
-      expect(action1).to receive(:execute) \
-        .with(hash_including(aliased_pair)) \
-        .and_return(data)
+      context = described_class.new.with(data, aliases).context
 
-      expect(action2).to receive(:execute) \
-        .with(hash_including(aliased_pair)) \
-        .and_return(data)
-
-      described_class.new.with(data, aliases).reduce(actions)
+      expect(context.aliases).to eq aliases
     end
   end
 end

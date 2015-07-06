@@ -4,7 +4,7 @@ module LightService; module Organizer
 
     def with(data = {}, aliases = nil)
       @context = LightService::Context.make(data)
-      @context.set_aliases(aliases)
+      @context.aliases = aliases if aliases
       self
     end
 

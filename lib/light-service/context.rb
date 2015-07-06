@@ -88,12 +88,24 @@ module LightService
       end
     end
 
-    def set_aliases(aliases)
-      return unless aliases
+    def aliases=(aliases)
+      @aliases = aliases
 
       aliases.each_pair do |key, key_alias|
         self[key_alias] = self[key]
       end
+    end
+
+    def aliases
+      @aliases ||= {}
+    end
+
+    def [](key)
+      super(key) || super(aliases.key(key))
+    end
+
+    def fetch(key, default_or_block = nil)
+      self[key] || super(key, default_or_block)
     end
 
   end
